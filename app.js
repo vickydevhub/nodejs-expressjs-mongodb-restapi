@@ -9,8 +9,10 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }))
 //Import Routes
 const userRoute = require('./routes/users');
+const productRoute = require('./routes/products');
 
 app.use('/user', userRoute);
+app.use('/product', productRoute);
 //MIDDLEWARE
 app.use('/user', () => {
     console.log('This is a middleware');
@@ -27,4 +29,6 @@ db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", function () {
   console.log("Connected successfully");
 });
-app.listen(3000);
+app.listen(6000);
+
+module.exports = app;
