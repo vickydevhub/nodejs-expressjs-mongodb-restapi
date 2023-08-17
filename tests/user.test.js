@@ -5,7 +5,7 @@ const http = require('http');
 const app = require('../app');
 const UserModel = require('../models/User'); 
 const request = require('supertest');
-
+let should = chai.should();
 chai.use(chaiHttp);
 const expect = chai.expect;
 
