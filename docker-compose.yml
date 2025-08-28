@@ -1,0 +1,8 @@
+services:
+  api:
+    build: .
+    container_name: express-api
+    ports:
+      - "${PORT}:3000"
+    env_file:
+      - .env

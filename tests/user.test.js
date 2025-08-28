@@ -2,60 +2,59 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const sinon = require('sinon');
 const http = require('http');
-const app = require('../app');
+//const app = require('../app');
 const UserModel = require('../models/User'); 
 const request = require('supertest');
-
+let should = chai.should();
 chai.use(chaiHttp);
 const expect = chai.expect;
 
 describe('User API', () => {
-  let server;
-  let createUserStub;
+  const baseurl = 'http://localhost:6000';
+  var bookingId;
+  var token;
 
-  before(async () => {
-    server = http.createServer(app);
-    await server.listen(0);
+  before(function(done) {
+      request(baseurl)
+          .post('/user/signing')
+          .send({
+              "email": "user@test.com",
+              "password": "password123"
+          })
+          .set('Accept', 'application/json')
+          .set('Content-Type', 'application/json')
+          .end(function(err, res) {
+              expect(res.statusCode).to.be.equal(200);
+              expect(res.body.token).not.to.be.null;
+              token = res.body.token;
+              if (err) {
+                  throw err;
+              }
+              done();
+          });
   });
-
-  after(async () => {
-    await server.close();
-  });
-
-  beforeEach(() => {
-    createUserStub = sinon.stub(UserModel, 'create');
-  });
-
-  afterEach(() => {
-    createUserStub.restore();
-  });
-  
-
-  it('should register a new user',  async function () { // Note the "done" parameter
-    const user = { username: 'testuser',  password: 'testpass' };
-    
-    createUserStub.resolves(user);
-
-    chai.request(server)
-      .post('/user/add')
-      .send(user)
-      .end((err, res) => {
-        expect(err).to.be.null;
-        expect(res).to.have.status(201);
-        expect(res.body.username).to.equal(user.username);
-        expect(createUserStub.calledOnce).to.be.true;
-        done(); // Signal the completion of the test
-      });
-  });
-});
-
-describe('GET /user/signin', function() {
-  it('responds with json', function(done) {
-    request(app)
-      .get('/user/signin')
-      .auth('email', 'password')
+  it('should successfully create a product',async () => {
+     this.timeout(20000);
+    const res = await request(baseurl)
+      .post('/product/add')
+      .send({
+        "name": "Ball",
+        "price": 1.0
+      })
       .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200, done);
-  });
+      .set('Content-Type', 'application/json');
+      const body = res.body;
+        //.end(function(err, res) {
+        expect(res.statusCode).to.be.equal(200);
+        expect(res.body._id).not.to.be.null;
+        expect(res.body.name).to.be.equal("Ball");
+        expect(res.body.price).to.be.equal(1.0);
+        productId = res.body._id;
+        // if (err) {
+        //     throw err;
+        // }
+        // done();
+        //}).catch((err) => done(err)); // this is missing
+});
+  
 });
