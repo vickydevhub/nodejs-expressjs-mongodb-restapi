@@ -17,19 +17,5 @@ app.use('/user', () => {
     console.log('This is a middleware');
 });
 
-const PORT = process.env.PORT || 3000;
-
-
-//connect to db
-mongoose.connect(process.env.DB_CONNECTION, 
-() => {
-    console.log('connected to db');
-});
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error: "));
-db.once("open", function () {
-  console.log("Connected successfully");
-});
-app.listen(PORT);
-
-module.exports = app;
+ 
+export default app;

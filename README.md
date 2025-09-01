@@ -15,11 +15,36 @@ A clean and modular RESTful API built with Node.js, Express, and MongoDB. This p
 
 ## Requirements
 
-- Node.js (v18+ recommended)
+- Node.js (v22+ recommended)
 - MongoDB instance (local or cloud)
 - Docker & Docker Compose (optional, for containerized deployment)
 
+
+# 🔐 JWT Authentication Middleware (Express.js)
+
+This project provides a reusable **JWT Authentication middleware** for **Express.js** applications.  
+It validates tokens provided in the request header and restricts access to protected routes.
+
+---
+
+## 📦 Packages Used
+
+- [express](https://www.npmjs.com/package/express) — Web framework for Node.js  
+- [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) — For signing and verifying JWT tokens  
+- [jest](https://www.npmjs.com/package/jest) — Testing framework  
+- [supertest](https://www.npmjs.com/package/supertest) — For testing Express APIs  
+
+---
+
 ## Getting Started
+
+
+## ⚙️ Installation
+
+```bash
+npm install express jsonwebtoken
+npm install --save-dev jest supertest
+
 
 ### Clone this Repo
 ```bash
