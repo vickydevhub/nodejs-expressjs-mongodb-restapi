@@ -6,3 +6,5 @@ services:
       - "${PORT}:3000"
     env_file:
       - .env
+    volumes:
+      - ./logs:/usr/src/app/logs   # optional: persist Winston logs

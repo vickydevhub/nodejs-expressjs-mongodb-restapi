@@ -34,6 +34,14 @@ It validates tokens provided in the request header and restricts access to prote
 - [jest](https://www.npmjs.com/package/jest) — Testing framework  
 - [supertest](https://www.npmjs.com/package/supertest) — For testing Express APIs  
 
+## Logging
+
+ - Requests and errors are logged using Winston.
+
+ - Logs are written to:
+  Console → visible via docker logs express-api
+  File → persisted at ./logs/app.log (optional, configure volume in Docker)
+
 ---
 
 ## Getting Started

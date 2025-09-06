@@ -1,51 +1,37 @@
-const express = require('express');
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+import User from '../models/User.js';
+import bcrypt from 'bcryptjs';
 
-const getAllUser = async (req, res, next) => {
-//router.get('/', auth ,async(req,res) => {
+export const getAllUser = async (req, res) => {
     try {
-        const alluser = await User.find();
-        res.json(alluser);
+        const allUsers = await User.find();
+        res.json(allUsers);
     } catch (error) {
-        res.json({message:error});
+        res.json({ message: error });
     }
-     
 };
 
-const addUser = async(req, res, next) => {
-    const {email,username,password} = req.body
-    if(!email || !password || !username){
-        return res.status(422).json({error:"Please add all fields"});
+export const addUser = async (req, res) => {
+    const { email, username, password } = req.body;
+    if (!email || !password || !username) {
+        return res.status(422).json({ error: "Please add all fields" });
     }
-    User.findOne({email})
-    .then((savedUser)=>{
-        if(savedUser){
-            return res.status(422).json({error:"User already exsist"});
+    try {
+        const savedUser = await User.findOne({ email });
+        if (savedUser) {
+            return res.status(422).json({ error: "User already exists" });
         }
-    
-     
-    bcrypt.hash(password,10)
-    .then(hashedpassword => {
-        const user = new User({
-                username,
-                email,
-                password:hashedpassword
-        })
-        user.save()
-        .then(user=>{
-            res.json({message:"Saved Succcessfully"})
-        }).catch(err=>{
-            console.log(err);
-        })
-    })
-     
-    })
-     
-};
 
-module.exports = {
-    getAllUser,
-    addUser
-}
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = new User({
+            username,
+            email,
+            password: hashedPassword
+        });
+
+        await user.save();
+        res.json({ message: "Saved Successfully" });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
