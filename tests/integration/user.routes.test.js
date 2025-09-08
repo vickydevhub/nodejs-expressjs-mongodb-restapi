@@ -5,7 +5,7 @@ import User from "../../models/User";
 describe("User API", () => {
   it("should create a user", async () => {
     const res = await request(app)
-      .post("/api/users")
+      .post("/user/add")
       .send({
         username: "alice",
         email: "alice@example.com",

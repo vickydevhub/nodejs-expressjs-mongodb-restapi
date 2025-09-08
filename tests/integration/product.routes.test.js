@@ -6,7 +6,7 @@ import app from "../../app"; // your Express app
 describe("Product API", () => {
   it("should create a product", async () => {
     const res = await request(app)
-      .post("/api/products")
+      .post("/product/add")
       .send({ name: "Laptop", price: 1200 });
 
     expect(res.status).toBe(201);
@@ -15,8 +15,12 @@ describe("Product API", () => {
   });
 
   it("should get all products", async () => {
-    const res = await request(app).get("/api/products");
+    const res = await request(app)
+      .get("/product")
+      .set("x-api-key", "secret"); // ✅ add auth header
+  
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
   });
+  
 });

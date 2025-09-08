@@ -6,6 +6,8 @@ let mongoServer;
 export async function connectTestDB() {
   mongoServer = await MongoMemoryServer.create();
   const uri = mongoServer.getUri();
+  // Set strictQuery explicitly to silence deprecation warning
+  mongoose.set("strictQuery", false);
   await mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,

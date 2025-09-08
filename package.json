@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "mocha --timeout 30000",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "start": "nodemon server.js"
   },
   "author": "",
